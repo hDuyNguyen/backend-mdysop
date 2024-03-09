@@ -49,7 +49,7 @@ public class Order {
 
     private LocalDateTime createAt;
 
-    private String status;
+    private OrderStatus status;
 
     private Long shopId;
 
