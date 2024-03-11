@@ -111,8 +111,29 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
+    public List<Product> getAllProductFromShop(Long shopId) throws ProductException{
+        List<Product> products = productRepository.findByShopId(shopId);
+
+        if (products == null) {
+            throw new ProductException("Product not found");
+        }
+        return products;
+    }
+
+    @Override
     public List<Product> getAllAvailableProduct() {
         return productRepository.getAllAvailableProduct();
+    }
+
+    @Override
+    public List<Product> findProductByNameAndStatus(Long shopId, String name, String status) {
+
+        return productRepository.getProductByNameAndStatus(shopId, name, status);
+    }
+
+    @Override
+    public List<Product> findProductFromShop(Long shopId) throws ProductException {
+        return null;
     }
 
     @Override
@@ -137,7 +158,7 @@ public class ProductServiceImp implements ProductService {
         if (opt.isPresent()) {
             Product product = opt.get();
 
-            product.setStatus("AVAILABLE");
+            product.setStatus("DENY");
             productRepository.save(product);
         }
         else {

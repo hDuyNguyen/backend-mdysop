@@ -14,7 +14,7 @@ public interface ProductService {
 
     Product createProduct(CreateProductRequest request, Shop shop);
 
-    Product updateProduct(UpdateProductRequest request, Long productId) throws Exception;
+    Product updateProduct(UpdateProductRequest request, Long productId) throws ProductException;
 
     Product deleteProduct(Long productId) throws ProductException;
 
@@ -22,13 +22,15 @@ public interface ProductService {
 
     List<Product> getAllProduct();
 
+    List<Product> getAllProductFromShop(Long shopId) throws ProductException;
+
     List<Product> getAllAvailableProduct();
 //
 //    List<Product> findProductByTag(String tag);
 //
-//    List<Product> findProductByNameAndStatus(Long shopId, String name, String status);
+    List<Product> findProductByNameAndStatus(Long shopId, String name, String status);
 //
-//    List<Product> findProductFromShop(Long shopId) throws ProductException;
+    List<Product> findProductFromShop(Long shopId) throws ProductException;
 //
     void confirmProduct(Long productId) throws ProductException;
     void deniedProduct(Long productId) throws ProductException;

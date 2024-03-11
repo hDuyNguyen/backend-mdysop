@@ -10,4 +10,6 @@ public interface ShopService {
     Shop createShop(CreateShopRequest request, User user);
 
     Shop updateShop(Long shopId, CreateShopRequest request) throws ShopException;
+
+    Shop findShopByUser(Long userId);
 }

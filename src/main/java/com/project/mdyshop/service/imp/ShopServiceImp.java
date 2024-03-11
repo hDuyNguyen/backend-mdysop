@@ -9,6 +9,7 @@ import com.project.mdyshop.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -22,6 +23,8 @@ public class ShopServiceImp implements ShopService {
         shop.setName(request.getName());
         shop.setImageUrl(request.getImageUrl());
         shop.setUser(user);
+        shop.setCreateAt(LocalDateTime.now());
+        shop.setStatus("ONLINE");
 
         return shopRepository.save(shop);
     }
@@ -39,5 +42,10 @@ public class ShopServiceImp implements ShopService {
             return shopRepository.save(shop);
         }
         throw new ShopException("Shop not found with ID: " + shopId);
+    }
+
+    @Override
+    public Shop findShopByUser(Long userId) {
+        return shopRepository.findShopByUser(userId);
     }
 }

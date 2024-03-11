@@ -17,7 +17,7 @@ public class AuthAdminController {
     AuthService authService;
 
     @PostMapping("/login")
-    public AuthResponse sigin(@RequestBody SigninRequest request) {
+    public AuthResponse login(@RequestBody SigninRequest request) {
         return authService.signin(request);
     }
 }

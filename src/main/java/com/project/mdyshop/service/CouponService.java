@@ -9,13 +9,15 @@ import java.util.List;
 
 public interface CouponService {
 
-    Coupon createCoupon(CouponRequest request);
+    Coupon createCoupon(CouponRequest request, Long shopId) throws CouponException;
 
-    Coupon updateCoupon(Long couponId, CouponRequest request) throws CouponException;
+    Coupon updateCouponAdmin(Long couponId, CouponRequest request) throws CouponException;
 
     void deleteCoupon(Long couponId) throws CouponException;
 
     int checkCoupon(Long couponId) throws CouponException;
 
-    List<Coupon> getAllCoupon();
+    List<Coupon> couponShop(Long shopId);
+
+    List<Coupon> couponAdmin();
 }

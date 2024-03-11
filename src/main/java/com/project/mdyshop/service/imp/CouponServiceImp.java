@@ -20,32 +20,31 @@ public class CouponServiceImp implements CouponService {
     @Autowired
     CouponRepository couponRepository;
     @Override
-    public Coupon createCoupon(CouponRequest request) {
+    public Coupon createCoupon(CouponRequest request, Long shopId) throws CouponException{
         Coupon coupon = new Coupon();
 
         coupon.setCode(request.getCode());
         coupon.setDescription(request.getDescription());
-        coupon.setStatus(CouponStatus.AVAILABLE);
+        coupon.setStatus("AVAILABLE");
         coupon.setNumber(request.getNumber());
         coupon.setDiscountType(request.getDiscountType());
         coupon.setCreatedAt(LocalDateTime.now());
         coupon.setQuantity(request.getQuantity());
         coupon.setMinPrice(request.getMinPrice());
-        coupon.setTimeStart(LocalDateTime.now());
-        coupon.setTimeEnd(LocalDateTime.now().plusHours(30*24*3600));
+        coupon.setTimeStart(LocalDateTime.parse(request.getTimeStart()));
+        coupon.setTimeEnd(LocalDateTime.parse(request.getTimeEnd()));
 
         return couponRepository.save(coupon);
     }
 
     @Override
-    public Coupon updateCoupon(Long couponId, CouponRequest request) throws CouponException {
+    public Coupon updateCouponAdmin(Long couponId, CouponRequest request) throws CouponException {
         Optional<Coupon> opt = couponRepository.findById(couponId);
 
         if (opt.isPresent()) {
             Coupon coupon = opt.get();
-            int check = checkCoupon(coupon.getId());
-            if (check <= 0) {
-                coupon.setStatus(CouponStatus.SOLD);
+            if (coupon.getCode().equals(request.getCode())) {
+                throw new CouponException("Code not changed");
             }
 
             coupon.setCode(request.getCode());
@@ -54,6 +53,8 @@ public class CouponServiceImp implements CouponService {
             coupon.setDiscountType(request.getDiscountType());
             coupon.setQuantity(request.getQuantity());
             coupon.setMinPrice(request.getMinPrice());
+            coupon.setTimeStart(LocalDateTime.parse(request.getTimeStart()));
+            coupon.setTimeEnd(LocalDateTime.parse(request.getTimeEnd()));
 
             return couponRepository.save(coupon);
         }
@@ -85,7 +86,14 @@ public class CouponServiceImp implements CouponService {
     }
 
     @Override
-    public List<Coupon> getAllCoupon() {
-        return couponRepository.findAll();
+    public List<Coupon> couponShop(Long shopId) {
+
+        return couponRepository.couponShop(shopId);
     }
+
+    @Override
+    public List<Coupon> couponAdmin() {
+        return couponRepository.couponAdmin();
+    }
+
 }

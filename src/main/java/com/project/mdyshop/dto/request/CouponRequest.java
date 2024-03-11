@@ -19,8 +19,8 @@ public class CouponRequest {
     private Long number;
     private String discountType;
     private int quantity;
-    private LocalDateTime timeStart;
-    private LocalDateTime timeEnd;
+    private String timeStart;
+    private String timeEnd;
     private long minPrice;
 
 }

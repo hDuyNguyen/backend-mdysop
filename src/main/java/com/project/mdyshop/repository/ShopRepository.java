@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public interface ShopRepository extends JpaRepository<Shop, Long> {
 
     @Query("select s from Shop s where s.user.id = :userId")
-    Shop findShopByUserId(@Param("userId") Long userId);
+    Shop findShopByUser(@Param("userId") Long userId);
 
 
 }

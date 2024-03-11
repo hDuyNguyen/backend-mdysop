@@ -32,7 +32,7 @@ public class Coupon {
 
     private int quantity;
 
-    private CouponStatus status;
+    private String status;
 
     private LocalDateTime createdAt;
 

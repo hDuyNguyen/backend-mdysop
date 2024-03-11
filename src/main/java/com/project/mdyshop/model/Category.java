@@ -24,7 +24,7 @@ public class Category {
     @Column(name = "image_url")
     private String imageUrl;
 
-    private String level;
+    private int level;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "parent_category_id")
