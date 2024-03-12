@@ -33,6 +33,17 @@ public class OrderServiceImp implements OrderService {
 
         Cart cart = cartRepository.findCartByShopIdAndUserId(shopId, user.getId());
         List<OrderItem> orderItems = new ArrayList<>();
+
+        Order order = new Order();
+
+        order.setOrderItems(orderItems);
+        order.setUser(user);
+        order.setTotalItems(cart.getTotalItems());
+        order.setTotalPrice(cart.getTotalPrice());
+        order.setCreateAt(LocalDateTime.now());
+        order.setStatus(OrderStatus.REQUEST);
+        Order savedOrder = orderRepository.save(order);
+
         for (CartItem item: cart.getCartItems()) {
             OrderItem orderItem = new OrderItem();
 
@@ -44,16 +55,6 @@ public class OrderServiceImp implements OrderService {
             OrderItem createOrderItem = orderItemRepository.save(orderItem);
             orderItems.add(createOrderItem);
         }
-
-        Order order = new Order();
-
-        order.setOrderItems(orderItems);
-        order.setUser(user);
-        order.setTotalItems(cart.getTotalItems());
-        order.setTotalPrice(cart.getTotalPrice());
-        order.setCreateAt(LocalDateTime.now());
-        order.setStatus(OrderStatus.REQUEST);
-        Order savedOrder = orderRepository.save(order);
 
         for (OrderItem item: orderItems) {
             item.setOrder(savedOrder);

@@ -25,14 +25,23 @@ public interface ProductService {
     List<Product> getAllProductFromShop(Long shopId) throws ProductException;
 
     List<Product> getAllAvailableProduct();
-//
-//    List<Product> findProductByTag(String tag);
-//
+
+   List<Product> findProductByCategory(Long categoryId);
+
     List<Product> findProductByNameAndStatus(Long shopId, String name, String status);
-//
+
     List<Product> findProductFromShop(Long shopId) throws ProductException;
-//
+
+    List<Product> filterProducts(Long categoryId, Double ratingValue);
+
+    List<Product> filterProducts1(Long categoryId);
+
     void confirmProduct(Long productId) throws ProductException;
+
     void deniedProduct(Long productId) throws ProductException;
+
+    List<Product> filterProductByCategoryShop(Long shopId, String categoryShopName);
+
+    List<Product> userFindProduct(Long shopId);
 
 }

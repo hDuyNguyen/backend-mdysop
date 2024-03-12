@@ -2,6 +2,7 @@ package com.project.mdyshop.service.imp;
 
 import com.project.mdyshop.dto.request.CreateCategoryRequest;
 import com.project.mdyshop.dto.request.SubCategoryRequest;
+import com.project.mdyshop.dto.request.UpdateCategoryRequest;
 import com.project.mdyshop.exception.CategoryException;
 import com.project.mdyshop.model.Category;
 import com.project.mdyshop.repository.CategoryRepository;
@@ -9,6 +10,7 @@ import com.project.mdyshop.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -57,15 +59,13 @@ public class CategoryServiceImp implements CategoryService {
 
 
     @Override
-    public Category updateCategory(Long categoryId, CreateCategoryRequest request) throws CategoryException {
+    public Category updateCategory(Long categoryId, UpdateCategoryRequest request) throws CategoryException {
 
         Optional<Category> opt = categoryRepository.findById(categoryId);
 
         if (opt.isPresent()) {
             Category category = opt.get();
             category.setName(request.getName());
-            category.setDescription(request.getDescription());
-            category.setImageUrl(request.getImageUrl());
 
             return categoryRepository.save(category);
         }
@@ -73,6 +73,7 @@ public class CategoryServiceImp implements CategoryService {
             throw new CategoryException("Category not found with ID: " + categoryId);
         }
     }
+
 
     @Override
     public void deleteCategory(Long categoryId) throws CategoryException {
@@ -84,5 +85,15 @@ public class CategoryServiceImp implements CategoryService {
         }
         throw new CategoryException("Category not found with ID: " + categoryId);
 
+    }
+
+    @Override
+    public List<Category> getParentCategory() {
+        return categoryRepository.findParentCategory();
+    }
+
+    @Override
+    public List<Category> getSubCategory(Long categoryId) {
+        return categoryRepository.findSubCategory(categoryId);
     }
 }

@@ -112,17 +112,18 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> getAllProductFromShop(Long shopId) throws ProductException{
-        List<Product> products = productRepository.findByShopId(shopId);
 
-        if (products == null) {
-            throw new ProductException("Product not found");
-        }
-        return products;
+        return productRepository.findByShopId(shopId);
     }
 
     @Override
     public List<Product> getAllAvailableProduct() {
         return productRepository.getAllAvailableProduct();
+    }
+
+    @Override
+    public List<Product> findProductByCategory(Long categoryId) {
+        return productRepository.findProductByCategory(categoryId);
     }
 
     @Override
@@ -134,6 +135,16 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> findProductFromShop(Long shopId) throws ProductException {
         return null;
+    }
+
+    @Override
+    public List<Product> filterProducts(Long categoryId, Double ratingValue) {
+        return productRepository.findProductByRatingAndSubCategory(categoryId, ratingValue);
+    }
+
+    @Override
+    public List<Product> filterProducts1(Long categoryId) {
+        return productRepository.findProductByCategoryIdOrParentCategoryId(categoryId);
     }
 
     @Override
@@ -164,5 +175,15 @@ public class ProductServiceImp implements ProductService {
         else {
             throw new ProductException("Product not found with ID:" + productId);
         }
+    }
+
+    @Override
+    public List<Product> filterProductByCategoryShop(Long shopId, String categoryShopName) {
+        return productRepository.findProductByCategoryShop(shopId, categoryShopName);
+    }
+
+    @Override
+    public List<Product> userFindProduct(Long shopId) {
+        return productRepository.userFindProducts(shopId);
     }
 }

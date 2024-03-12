@@ -1,27 +1,26 @@
 package com.project.mdyshop.dto.request;
 
-import com.project.mdyshop.model.CouponStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CouponRequest {
+public class CreateSaleRequest {
 
-    private String code;
-    private String description;
-    private Long number;
-    private String discountType;
-    private String CouponType;
-    private int quantity;
+    private String name;
+
     private String timeStart;
-    private String timeEnd;
-    private long minPrice;
 
+    private String timeEnd;
+
+    private String description;
+
+    private String discountType;
+
+    private Long discountNumber;
 }

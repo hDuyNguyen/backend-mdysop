@@ -18,4 +18,7 @@ public interface CouponRepository extends JpaRepository<Coupon, Long> {
     @Query("select c from Coupon c where c.shopId = null ")
     List<Coupon> couponAdmin();
 
+    @Query("select c from Coupon c where c.shopId != null ")
+    List<Coupon> listCouponAdmin();
+
 }

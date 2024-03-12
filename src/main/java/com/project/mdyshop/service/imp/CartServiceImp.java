@@ -47,6 +47,7 @@ public class CartServiceImp implements CartService {
 
         long totalItem = 0;
         long totalPrice = 0;
+        long totalDiscountPrice = 0;
 
         for (CartItem cartItem: cart.getCartItems()) {
             totalItem = totalItem + cartItem.getQuantity();
