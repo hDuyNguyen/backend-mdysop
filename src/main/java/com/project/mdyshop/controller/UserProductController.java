@@ -33,8 +33,8 @@ public class UserProductController {
     }
 
     @GetMapping("/filter1")
-    public ResponseEntity<List<Product>> filterProducts1(@RequestParam(name = "shopId", required = false) Long shopId,
-                                                         @RequestParam(name = "categoryName")String categoryName) {
+    public ResponseEntity<List<Product>> filterProducts1(@RequestParam(name = "shopId") Long shopId,
+                                                         @RequestParam(name = "categoryName", required = false)String categoryName) {
         List<Product> products = productService.filterProductByCategoryShop(shopId, categoryName);
 
         return new ResponseEntity<>(products, HttpStatus.OK);
@@ -50,6 +50,14 @@ public class UserProductController {
     @GetMapping("/shop/{shopId}")
     public ResponseEntity<List<Product>> getProductByShopId(@PathVariable Long shopId) {
         List<Product> products = productService.userFindProduct(shopId);
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Product>> searchProductInShop(@RequestParam(name = "name", required = false) String name,
+                                                             @RequestParam(name = "shopId") Long shopId) {
+        List<Product> products = productService.findProductByNameAndShopId(name, shopId);
 
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

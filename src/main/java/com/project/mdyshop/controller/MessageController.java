@@ -20,17 +20,17 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
-    @PostMapping("/{chatId}")
-    public ResponseEntity<Message> createUserMessage(@RequestHeader("Authorization")String jwt,
-                                                     @RequestBody Message message,
-                                                     @RequestParam Long chatId)
-            throws UserException, ChatException {
-
-        User user = userService.findUserByToken(jwt);
-
-        Message message1 = messageService.createUserMessage(user, chatId, message);
-
-        return new ResponseEntity<>(message1, HttpStatus.CREATED);
-    }
+//    @PostMapping("/{chatId}")
+//    public ResponseEntity<Message> createUserMessage(@RequestHeader("Authorization")String jwt,
+//                                                     @RequestBody Message message,
+//                                                     @RequestParam Long chatId)
+//            throws UserException, ChatException {
+//
+//        User user = userService.findUserByToken(jwt);
+//
+//        Message message1 = messageService.createUserMessage(user, chatId, message);
+//
+//        return new ResponseEntity<>(message1, HttpStatus.CREATED);
+//    }
 
 }

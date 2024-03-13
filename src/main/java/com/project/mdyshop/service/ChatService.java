@@ -3,12 +3,14 @@ package com.project.mdyshop.service;
 import com.project.mdyshop.dto.request.CreateChatRequest;
 import com.project.mdyshop.exception.ChatException;
 import com.project.mdyshop.model.Chat;
+import com.project.mdyshop.model.Shop;
+import com.project.mdyshop.model.User;
 
 import java.util.List;
 
 public interface ChatService {
 
-    Chat createChat(CreateChatRequest request);
+    Chat createChat(User user, Shop shop);
 
     Chat findChatById(Long chatId) throws ChatException;
 

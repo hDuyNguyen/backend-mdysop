@@ -186,4 +186,9 @@ public class ProductServiceImp implements ProductService {
     public List<Product> userFindProduct(Long shopId) {
         return productRepository.userFindProducts(shopId);
     }
+
+    @Override
+    public List<Product> findProductByNameAndShopId(String name, Long shopId) {
+        return productRepository.findProductByNameAndShopId(name, shopId);
+    }
 }

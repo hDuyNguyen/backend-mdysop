@@ -44,4 +44,8 @@ public interface ProductService {
 
     List<Product> userFindProduct(Long shopId);
 
+    List<Product> findProductByNameAndShopId(String name, Long shopId);
+
+//    List<Product> findProductByTag(String tag);
+
 }

@@ -64,8 +64,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> userFindProducts(@Param("shopId")Long shopId);
 
     @Query("select p from Product p " +
-            "join CategoryShop cs " +
-            "where p.shop.id = :shopId and cs.name = :name")
+            "where p.category.name = :name or :name is null " +
+            "and p.shop.id = :shopId " +
+            "and (p.status is null or p.status not in ('REQUEST', 'DENY'))")
     List<Product> findProductByCategoryShop(@Param("shopId")Long shopId,
                                             @Param("name")String name);
+
+    @Query("select p from Product p " +
+            "where p.shop.id = :shopId " +
+            "and :name is null or lower(p.name) like lower(concat('%', :name, '%')) " +
+            "and (p.status is null or p.status not in ('REQUEST', 'DENY'))")
+    List<Product> findProductByNameAndShopId(@Param("name")String name,
+                                             @Param("shopId")Long shopId);
+
+//    @Query("select p from Product p join p.tags t where t.name = :tag and (p.status is null or p.status not in ('REQUEST', 'DENY'))")
+//    List<Product> findProductByTag(@Param("tag")String tag);
 }

@@ -37,8 +37,9 @@ public class CartServiceImp implements CartService {
             cart.setTotalPrice(cart.getTotalPrice() + totalPrice);
 
             return cartRepository.save(cart);
+        } else {
+            throw new CartException("Cart not found with ID: " + cartId);
         }
-        throw new CartException("Cart not found with ID: " + cartId);
     }
 
     @Override

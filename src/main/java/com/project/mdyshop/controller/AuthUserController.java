@@ -37,12 +37,12 @@ public class AuthUserController {
         return authService.signup(request);
     }
 
-    @GetMapping("/profile")
-    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization")String jwt) throws UserException {
-        User user =userService.findUserByToken(jwt);
-
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
+//    @GetMapping("/profile")
+//    public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization")String jwt) throws UserException {
+//        User user =userService.findUserByToken(jwt);
+//
+//        return new ResponseEntity<>(user, HttpStatus.OK);
+//    }
 
     @PostMapping("/address/new")
     @PreAuthorize("hasRole('USER')")

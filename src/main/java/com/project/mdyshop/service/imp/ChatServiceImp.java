@@ -3,6 +3,8 @@ package com.project.mdyshop.service.imp;
 import com.project.mdyshop.dto.request.CreateChatRequest;
 import com.project.mdyshop.exception.ChatException;
 import com.project.mdyshop.model.Chat;
+import com.project.mdyshop.model.Shop;
+import com.project.mdyshop.model.User;
 import com.project.mdyshop.repository.ChatRepository;
 import com.project.mdyshop.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +21,15 @@ public class ChatServiceImp implements ChatService {
     @Autowired
     ChatRepository chatRepository;
     @Override
-    public Chat createChat(CreateChatRequest request) {
-        Chat isExist = chatRepository.findChatByUserAndShop(request.getUser().getId(), request.getShop().getId());
+    public Chat createChat(User user, Shop shop) {
+        Chat isExist = chatRepository.findChatByUserAndShop(user.getId(), shop.getId());
         if (isExist != null) {
             return isExist;
         }
         else {
             Chat chat = new Chat();
-            chat.setUser(request.getUser());
-            chat.setShop(request.getShop());
+            chat.setUser(user);
+            chat.setShop(shop);
             chat.setTimeStamp(LocalDateTime.now());
 
             return chatRepository.save(chat);
