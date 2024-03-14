@@ -92,16 +92,70 @@ public class OrderServiceImp implements OrderService {
         order.setTotalPrice(cart.getTotalPrice());
         order.setTotalItems(cart.getTotalItems());
         order.setStatus("REQUEST");
-        order.setDiscountedPrice(request.getDiscountPrice());
+
         order.setCreateAt(LocalDateTime.now());
         order.setOrderItems(orderItems);
+        order.setPayment(request.getPayment());
 
-        Order savedOrder = orderRepository.save(order);
+        if (request.getDiscountPrice() == 0) {
+            order.setDiscountedPrice(cart.getTotalPrice());
+            Order savedOrder = orderRepository.save(order);
 
-        for (OrderItem item: orderItems) {
-            item.setOrder(savedOrder);
-            orderItemRepository.save(item);
+            for (OrderItem item: orderItems) {
+                item.setOrder(savedOrder);
+                orderItemRepository.save(item);
+            }
+            return savedOrder;
         }
-        return savedOrder;
+        else {
+            order.setDiscountedPrice(request.getTotalPrice());
+            Order savedOrder = orderRepository.save(order);
+
+            for (OrderItem item: orderItems) {
+                item.setOrder(savedOrder);
+                orderItemRepository.save(item);
+            }
+            return savedOrder;
+        }
+    }
+
+    @Override
+    public List<Order> getAllOrder() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Order> getListUserOrders(Long userId) {
+        return orderRepository.findOrderByUserId(userId);
+    }
+
+    @Override
+    public List<Order> getShopOrder(Long shopId) {
+        return orderRepository.findOrderByShopId(shopId);
+    }
+
+    @Override
+    public Order updateOrderStatus(Long orderId, String status) {
+        Optional<Order> opt = orderRepository.findById(orderId);
+        if (opt.isPresent()) {
+            Order order = opt.get();
+            order.setStatus(status);
+            if (order.getStatus().equals("SHIPPED")) {
+                order.setDeliveryDate(LocalDateTime.now());
+            }
+            return orderRepository.save(order);
+        }
+        return null;
+    }
+
+    @Override
+    public Order getUserOrder(Long orderId) {
+        Optional<Order> opt = orderRepository.findById(orderId);
+        return opt.orElse(null);
+    }
+
+    @Override
+    public List<Order> getUserOrderByStatus(Long shopId, String status) {
+        return orderRepository.findUserOrderByStatus(shopId, status);
     }
 }

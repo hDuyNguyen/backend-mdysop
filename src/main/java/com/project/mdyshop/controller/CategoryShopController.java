@@ -1,14 +1,18 @@
 package com.project.mdyshop.controller;
 
+import com.project.mdyshop.dto.request.AddProductToCategoryShop;
 import com.project.mdyshop.dto.request.CategoryShopRequest;
+import com.project.mdyshop.dto.request.RemoveProductFromCategoryShop;
 import com.project.mdyshop.dto.response.ApiResponse;
 import com.project.mdyshop.exception.CategoryShopException;
 import com.project.mdyshop.exception.ShopException;
 import com.project.mdyshop.exception.UserException;
 import com.project.mdyshop.model.CategoryShop;
+import com.project.mdyshop.model.Product;
 import com.project.mdyshop.model.Shop;
 import com.project.mdyshop.model.User;
 import com.project.mdyshop.service.CategoryShopService;
+import com.project.mdyshop.service.ProductService;
 import com.project.mdyshop.service.ShopService;
 import com.project.mdyshop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,8 @@ public class CategoryShopController {
     ShopService shopService;
     @Autowired
     CategoryShopService categoryShopService;
+    @Autowired
+    ProductService productService;
 
     @PostMapping("/create")
     public ResponseEntity<CategoryShop> createCategoryShop(@RequestBody CategoryShopRequest request,
@@ -87,4 +93,24 @@ public class CategoryShopController {
         return new ResponseEntity<>(categoryShops, HttpStatus.OK);
     }
 
+    @PostMapping("/new")
+    public ResponseEntity<CategoryShop> addProductToCategoryShop(@RequestBody AddProductToCategoryShop request) {
+        CategoryShop categoryShop = categoryShopService.addProductToCategoryShop(request);
+
+        return new ResponseEntity<>(categoryShop, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/product/delete")
+    public ResponseEntity<CategoryShop> removeProductFromCategoryShop(@RequestBody RemoveProductFromCategoryShop request) {
+        CategoryShop categoryShop = categoryShopService.removeProductFromCategoryShop(request);
+
+        return new ResponseEntity<>(categoryShop, HttpStatus.OK);
+    }
+
+    @GetMapping("/product/{categoryShopId}")
+    public ResponseEntity<List<Product>> getAllProductCategory(@PathVariable Long categoryShopId) {
+        List<Product> products = productService.findProductByCategory(categoryShopId);
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
 }

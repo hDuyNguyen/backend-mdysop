@@ -1,7 +1,9 @@
 package com.project.mdyshop.service;
 
+import com.project.mdyshop.dto.request.AddProductToCategoryShop;
 import com.project.mdyshop.dto.request.CategoryShopRequest;
 import com.project.mdyshop.dto.request.CreateCategoryRequest;
+import com.project.mdyshop.dto.request.RemoveProductFromCategoryShop;
 import com.project.mdyshop.exception.CategoryShopException;
 import com.project.mdyshop.model.CategoryShop;
 import com.project.mdyshop.model.Shop;
@@ -19,4 +21,8 @@ public interface CategoryShopService {
     void deleteCategory(Long categoryShopId) throws CategoryShopException;
 
     List<CategoryShop> getAllCategory(Long shopId);
+
+    CategoryShop addProductToCategoryShop(AddProductToCategoryShop request);
+
+    CategoryShop removeProductFromCategoryShop(RemoveProductFromCategoryShop request);
 }

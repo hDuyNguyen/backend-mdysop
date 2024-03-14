@@ -1,14 +1,13 @@
 package com.project.mdyshop.controller;
 
-import com.project.mdyshop.dto.request.CreateOrderRequest;
 import com.project.mdyshop.dto.request.StatusOrderRequest;
-import com.project.mdyshop.exception.CouponException;
 import com.project.mdyshop.exception.UserException;
 import com.project.mdyshop.model.Order;
+import com.project.mdyshop.model.Shop;
 import com.project.mdyshop.model.User;
 import com.project.mdyshop.service.OrderService;
+import com.project.mdyshop.service.ShopService;
 import com.project.mdyshop.service.UserService;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,25 +17,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/user/order")
-@PreAuthorize("hasRole('USER')")
-public class OrderController {
+@RequestMapping("/api/shop/order")
+@PreAuthorize("hasRole('SHOP')")
+public class ShopOrderController {
 
+    @Autowired
+    OrderService orderService;
     @Autowired
     UserService userService;
     @Autowired
-    OrderService orderService;
-    @PostMapping("/create")
-    public ResponseEntity<Order> createOrder(@RequestHeader("Authorization")String jwt,
-                                             @RequestBody CreateOrderRequest request)
-            throws UserException, CouponException {
-
-        User user = userService.findUserByToken(jwt);
-
-        Order order = orderService.createOrder(user, request);
-
-        return new ResponseEntity<>(order, HttpStatus.CREATED);
-    }
+    ShopService shopService;
 
     @PutMapping("/{orderId}")
     public ResponseEntity<Order> updateStatusOrder(@RequestBody StatusOrderRequest request,
@@ -47,10 +37,11 @@ public class OrderController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Order>> getListUserOrder(@RequestHeader("Authorization")String jwt) throws UserException {
+    public ResponseEntity<List<Order>> getShopOrders(@RequestHeader("Authorization")String jwt) throws UserException {
         User user = userService.findUserByToken(jwt);
+        Shop shop = shopService.findShopByUser(user.getId());
 
-        List<Order> orders = orderService.getListUserOrders(user.getId());
+        List<Order> orders = orderService.getShopOrder(shop.getId());
 
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
@@ -60,5 +51,18 @@ public class OrderController {
         Order order = orderService.getUserOrder(orderId);
 
         return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<Order>> getUserOrderByStatus(@RequestHeader("Authorization")String jwt,
+                                                            @RequestBody StatusOrderRequest request)
+            throws UserException {
+
+        User user = userService.findUserByToken(jwt);
+        Shop shop = shopService.findShopByUser(user.getId());
+
+        List<Order> orders = orderService.getUserOrderByStatus(shop.getId(), request.getStatus());
+
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 }
