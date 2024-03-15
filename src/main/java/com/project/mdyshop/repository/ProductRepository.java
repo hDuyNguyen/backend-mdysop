@@ -63,12 +63,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "and (p.status is null or p.status not in ('REQUEST', 'DENY'))")
     List<Product> userFindProducts(@Param("shopId")Long shopId);
 
-    @Query("select p from Product p " +
-            "where p.category.name = :name or :name is null " +
-            "and p.shop.id = :shopId " +
-            "and (p.status is null or p.status not in ('REQUEST', 'DENY'))")
-    List<Product> findProductByCategoryShop(@Param("shopId")Long shopId,
-                                            @Param("name")String name);
+    @Query("select p from Product p join CategoryShop cs where cs.id = :categoryShopId")
+    List<Product> findProductByCategoryShop(@Param("categoryShopId")Long categoryShopId);
 
     @Query("select p from Product p " +
             "where p.shop.id = :shopId " +
@@ -79,4 +75,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
 //    @Query("select p from Product p join p.tags t where t.name = :tag and (p.status is null or p.status not in ('REQUEST', 'DENY'))")
 //    List<Product> findProductByTag(@Param("tag")String tag);
+
+    @Query("select p from Product p where " +
+            "(:name is null or p.name like concat('%', :name, '%')) " +
+            "and p.status = 'AVAILABLE'")
+    List<Product> findByName(@Param("name")String name);
+
+    @Query("select p from Product p where p.category.id = :categoryId")
+    List<Product> findByCategory(@Param("categoryId")Long category);
+
 }

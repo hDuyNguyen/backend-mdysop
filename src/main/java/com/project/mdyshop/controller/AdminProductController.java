@@ -1,5 +1,6 @@
 package com.project.mdyshop.controller;
 
+import com.project.mdyshop.dto.request.UpdateProductStatusRequest;
 import com.project.mdyshop.dto.response.ApiResponse;
 import com.project.mdyshop.exception.ProductException;
 import com.project.mdyshop.model.Product;
@@ -47,5 +48,13 @@ public class AdminProductController {
         List<Product> products = productService.getAllProduct();
 
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<Product> updateStatusProduct(@RequestBody UpdateProductStatusRequest request,
+                                                       @PathVariable Long productId) {
+        Product product = productService.updateProductStatus(request, productId);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 }

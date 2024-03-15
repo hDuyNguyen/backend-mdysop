@@ -2,6 +2,7 @@ package com.project.mdyshop.service;
 
 import com.project.mdyshop.dto.request.CreateProductRequest;
 import com.project.mdyshop.dto.request.UpdateProductRequest;
+import com.project.mdyshop.dto.request.UpdateProductStatusRequest;
 import com.project.mdyshop.exception.ProductException;
 import com.project.mdyshop.model.Product;
 import com.project.mdyshop.model.Shop;
@@ -40,12 +41,18 @@ public interface ProductService {
 
     void deniedProduct(Long productId) throws ProductException;
 
-    List<Product> filterProductByCategoryShop(Long shopId, String categoryShopName);
+    List<Product> findProductByCategoryShop(Long categoryShopId);
 
     List<Product> userFindProduct(Long shopId);
 
     List<Product> findProductByNameAndShopId(String name, Long shopId);
 
 //    List<Product> findProductByTag(String tag);
+
+    Product updateProductStatus (UpdateProductStatusRequest request, Long productId);
+
+    List<Product> getAllProductByName(String name);
+
+    List<Product> getAllProductByCategory(Long categoryId);
 
 }

@@ -32,13 +32,13 @@ public class UserProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    @GetMapping("/filter1")
-    public ResponseEntity<List<Product>> filterProducts1(@RequestParam(name = "shopId") Long shopId,
-                                                         @RequestParam(name = "categoryName", required = false)String categoryName) {
-        List<Product> products = productService.filterProductByCategoryShop(shopId, categoryName);
-
-        return new ResponseEntity<>(products, HttpStatus.OK);
-    }
+//    @GetMapping("/filter1")
+//    public ResponseEntity<List<Product>> filterProducts1(@RequestParam(name = "shopId") Long shopId,
+//                                                         @RequestParam(name = "categoryName", required = false)String categoryName) {
+//        List<Product> products = productService.filterProductByCategoryShop(shopId, categoryName);
+//
+//        return new ResponseEntity<>(products, HttpStatus.OK);
+//    }
 
     @GetMapping("/details/{productId}")
     public ResponseEntity<Product> getProductById(@PathVariable Long productId) throws ProductException {
@@ -58,6 +58,27 @@ public class UserProductController {
     public ResponseEntity<List<Product>> searchProductInShop(@RequestParam(name = "name", required = false) String name,
                                                              @RequestParam(name = "shopId") Long shopId) {
         List<Product> products = productService.findProductByNameAndShopId(name, shopId);
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<List<Product>> getAllProduct() {
+        List<Product> products = productService.getAllAvailableProduct();
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/searchProduct")
+    public ResponseEntity<List<Product>> getAllProductByName(@RequestParam(name = "name", required = false)String name) {
+        List<Product> products = productService.getAllProductByName(name);
+
+        return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{categoryId}")
+    public ResponseEntity<List<Product>> getAllProductByCategory(@PathVariable Long categoryId) {
+        List<Product> products = productService.getAllProductByCategory(categoryId);
 
         return new ResponseEntity<>(products, HttpStatus.OK);
     }

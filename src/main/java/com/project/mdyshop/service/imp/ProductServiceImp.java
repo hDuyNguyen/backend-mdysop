@@ -2,6 +2,7 @@ package com.project.mdyshop.service.imp;
 
 import com.project.mdyshop.dto.request.CreateProductRequest;
 import com.project.mdyshop.dto.request.UpdateProductRequest;
+import com.project.mdyshop.dto.request.UpdateProductStatusRequest;
 import com.project.mdyshop.exception.ProductException;
 import com.project.mdyshop.model.Category;
 import com.project.mdyshop.model.Product;
@@ -178,8 +179,8 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<Product> filterProductByCategoryShop(Long shopId, String categoryShopName) {
-        return productRepository.findProductByCategoryShop(shopId, categoryShopName);
+    public List<Product> findProductByCategoryShop(Long categoryShopId) {
+        return productRepository.findProductByCategoryShop(categoryShopId);
     }
 
     @Override
@@ -190,5 +191,28 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> findProductByNameAndShopId(String name, Long shopId) {
         return productRepository.findProductByNameAndShopId(name, shopId);
+    }
+
+    @Override
+    public Product updateProductStatus(UpdateProductStatusRequest request, Long productId) {
+        Optional<Product> opt = productRepository.findById(productId);
+
+        if (opt.isPresent()) {
+            Product product = opt.get();
+
+            product.setStatus(request.getStatus());
+            productRepository.save(product);
+        }
+        return null;
+    }
+
+    @Override
+    public List<Product> getAllProductByName(String name) {
+        return productRepository.findByName(name);
+    }
+
+    @Override
+    public List<Product> getAllProductByCategory(Long categoryId) {
+        return productRepository.findByCategory(categoryId);
     }
 }

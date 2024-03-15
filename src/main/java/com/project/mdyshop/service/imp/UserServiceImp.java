@@ -53,7 +53,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<User> getAllUser() {
-        return null;
+        return userRepository.getAllUser();
     }
 
     @Override

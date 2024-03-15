@@ -2,6 +2,7 @@ package com.project.mdyshop.controller;
 
 import com.project.mdyshop.dto.request.CreateProductRequest;
 import com.project.mdyshop.dto.request.UpdateProductRequest;
+import com.project.mdyshop.dto.request.UpdateProductStatusRequest;
 import com.project.mdyshop.exception.ProductException;
 import com.project.mdyshop.exception.ShopException;
 import com.project.mdyshop.exception.UserException;
@@ -44,9 +45,8 @@ public class ShopProductController {
         return new ResponseEntity<>(product, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{productId}")
-    public ResponseEntity<Product> updateProduct(@RequestHeader("Authorization")String jwt,
-                                                 @PathVariable Long productId,
+    @PutMapping("/update/{productId}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long productId,
                                                  @RequestBody UpdateProductRequest request) throws ProductException {
 
         Product product = productService.updateProduct(request, productId);
@@ -81,6 +81,14 @@ public class ShopProductController {
     public ResponseEntity<Product> getProductById(@RequestHeader("Authorization")String jwt,
                                                   @PathVariable Long productId)  throws ProductException{
         Product product = productService.findProductById(productId);
+
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
+
+    @PutMapping("/{productId}")
+    public ResponseEntity<Product> updateStatusProduct(@RequestBody UpdateProductStatusRequest request,
+                                                       @PathVariable Long productId) {
+        Product product = productService.updateProductStatus(request, productId);
 
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
